@@ -10,9 +10,21 @@ import (
 	"regexp"
 )
 
+type FlexibleBool bool
+
+func (flexibleBool *FlexibleBool) UnmarshalJSON(data []byte) error {
+	switch string(data) {
+	case `true`, `"true"`:
+		*flexibleBool = true
+	default:
+		*flexibleBool = false
+	}
+	return nil
+}
+
 type ViaCEPResponse struct {
-	Localidade string `json:"localidade"`
-	Erro       bool   `json:"erro"`
+	Localidade string      `json:"localidade"`
+	Erro       FlexibleBool `json:"erro"`
 }
 
 type WeatherAPIResponse struct {

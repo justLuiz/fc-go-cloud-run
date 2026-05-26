@@ -42,9 +42,17 @@ func TestWeatherHandler(t *testing.T) {
 			checkExactJSON:     false,
 		},
 		{
-			testName:           "ViaCEP returns erro true results in 404",
+			testName:           "ViaCEP returns erro true (bool) results in 404",
 			cepQueryParam:      "00000000",
 			viaCEPResponseBody: `{"erro":true}`,
+			expectedStatusCode: http.StatusNotFound,
+			expectedBody:       "can not find zipcode",
+			checkExactJSON:     false,
+		},
+		{
+			testName:           "ViaCEP returns erro true (string) results in 404",
+			cepQueryParam:      "00000000",
+			viaCEPResponseBody: `{"erro":"true"}`,
 			expectedStatusCode: http.StatusNotFound,
 			expectedBody:       "can not find zipcode",
 			checkExactJSON:     false,
